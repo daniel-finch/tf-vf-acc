@@ -21,7 +21,7 @@ workflows:
   minimal:
     jobs:
       - build
-      - tests
+      - tests:
           requires:
             - build
       - release
