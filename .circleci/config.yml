@@ -1,8 +1,32 @@
-version: 2.1
-  jobs:
-    build:
-      docker:
-        - image: circleci/node:4.8.2 # the primary container, where your job's commands are run
-      steps:
-        - checkout # check out the code in the project directory
-        - run: echo "hello world" # run the `echo` command
+version: 2
+jobs:
+  build:
+    steps:
+      - run:
+          name: Compile Binaries
+          command: echo "Compile Binaries"
+  tests:
+    steps:
+      - run:
+          name: Run All Tests
+          command: echo "Run All Tests"
+  build:
+    steps:
+      - run:
+          name: Release Artifacts
+          command: echo "Release Artifacts"
+
+workflows:
+  version: 2
+  minimal:
+    jobs:
+      - build
+      - tests
+          requires:
+            - build
+      - release
+          requires:
+            - tests
+          filters:
+            tags:
+              only: /^v.*$/
